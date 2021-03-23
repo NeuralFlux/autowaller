@@ -2,6 +2,7 @@
 Scrap popular QuoteFancy wallpapers and change them at a defined frequency.
 
 ## Getting Started (Linux based systems)
+**Important - I've tried it on Ubuntu with Gnome Desktop. It will presumably be different for other distro/OS. A minor fix in the `change_wallpaper` function should be able to do it.**
 1. Clone the repo - `git clone https://github.com/NeuralFlux/autowaller`
 2. `cd autowaller`
 3. `pip3 install -r requirements.txt`
