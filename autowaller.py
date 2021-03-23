@@ -1,9 +1,16 @@
 from lxml import html
 import urllib
 import requests
+
 import random
+
 from datetime import datetime
+
 import os
+
+import sched, time
+
+import argparse
 
 
 class AutoWaller(object):
@@ -50,7 +57,29 @@ class AutoWaller(object):
         os.system(wall_command)
 
 
-if __name__ == "__main__":
+def change_wallpaper(wall_sched, change_freq):
     aw = AutoWaller()
     aw.get_random_wallpaper()
     aw.set_wallpaper()
+
+    wall_sched.enter(change_freq, 1, change_wallpaper, (wall_sched, change_freq))
+
+if __name__ == "__main__":
+
+    # parse the input arguments
+    parser = argparse.ArgumentParser(description="Automatic Wallpaper Changer")
+    parser.add_argument(
+        '--freq',
+        dest="CHANGE_FREQ",
+        action='store',
+        default=3600,
+        type=float,
+        help="Interval to change the wallpaper (in seconds)"
+    )
+    args = parser.parse_args()
+
+    # run scheduler to change in intervals
+    wall_sched = sched.scheduler(time.time, time.sleep)
+    wall_sched.enter(args.CHANGE_FREQ, 1, change_wallpaper, (wall_sched, args.CHANGE_FREQ))
+    wall_sched.run()
+    
